@@ -9,7 +9,7 @@ public class MyInterface extends JFrame {
 
     public MyInterface() {
         setTitle("Calculator GUI");
-        setSize(200, 300);
+        setSize(300, 400);
         setLayout(new BorderLayout());
 
         // create display
