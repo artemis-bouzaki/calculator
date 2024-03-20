@@ -9,7 +9,9 @@ public class MyInterface extends JFrame {
 
     private JTextField display;
 
+    // function to create interface
     public MyInterface() {
+
         setTitle("Calculator GUI");
         setSize(300, 400);
         setLayout(new BorderLayout());
@@ -22,6 +24,7 @@ public class MyInterface extends JFrame {
         JPanel buttonPanel = new JPanel(new GridLayout(5, 4));
         String[] buttonLabels = { "(", ")", "DEL", "AC", "7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-",
                 "0", " ", "=", "+" };
+        // add a button listener for each button
         for (String buttonLabel : buttonLabels) {
             JButton button = new JButton(buttonLabel);
             button.addActionListener(new ButtonListener());
@@ -34,6 +37,7 @@ public class MyInterface extends JFrame {
     // Class to imlement shunting yard algorithm
     private class shuntingYard {
 
+        // determine if char is letter or digit
         static boolean digitOrOperator(char c) {
             if (Character.isLetterOrDigit(c)) {
                 return true;
@@ -60,7 +64,7 @@ public class MyInterface extends JFrame {
             }
         }
 
-        // convert infix into postfix notation
+        // convert infix into postfix (reverse polish) notation
         static String infixToPostfix(String expression) {
             // initialise stack for operators and string for output
             Stack<Character> stack = new Stack<>();
@@ -99,20 +103,27 @@ public class MyInterface extends JFrame {
 
     }
 
+    // class to implement button listeners
     private class ButtonListener implements ActionListener {
+
         public void actionPerformed(ActionEvent event) {
 
             String command = ((JButton) event.getSource()).getText();
             switch (command) {
                 case "=":
+                    // evaluate result
                     String expression = display.getText();
                     String expressionInPostfix = shuntingYard.infixToPostfix(expression);
                     display.setText(Double.toString(evaluateResult(expressionInPostfix)));
                     break;
+
                 case "AC":
+                    // delete all text
                     display.setText("");
                     break;
+
                 case "DEL":
+                    // delete last char
                     if (display.getText().length() > 0) {
                         String correctedExpresion = display.getText().substring(0, display.getText().length() - 1);
                         display.setText(correctedExpresion);
@@ -120,7 +131,9 @@ public class MyInterface extends JFrame {
                         display.setText("");
                     }
                     break;
+
                 default:
+                    // if none of the above, simply display the char
                     display.setText(display.getText() + command);
                     break;
 
@@ -133,9 +146,14 @@ public class MyInterface extends JFrame {
         Stack<Double> stack = new Stack<>();
         for (int i = 0; i < expression.length(); i++) {
             char c = expression.charAt(i);
+            // if the char is a digit, add it to the stack
             if (Character.isDigit(c)) {
                 stack.push((double) Character.getNumericValue(c));
+
+                // if the char is an operator pop the last two digits from the stack and perform
+                // an operation
             } else if (c == '+' || c == '-' || c == '*' || c == '/') {
+
                 double operand2 = stack.pop();
                 double operand1 = stack.pop();
                 double result;
@@ -156,10 +174,12 @@ public class MyInterface extends JFrame {
                         result = 0;
 
                 }
+                // push the result in the stack
                 stack.push(result);
             }
 
         }
+        // the last value of the stack should be the result
         return stack.pop();
     }
 
