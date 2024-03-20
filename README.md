@@ -1,6 +1,11 @@
 
 # Calculator App
-=======
+
+Basic calculator app built in Java with a simple GUI using Java Swing. The project was inspired by Coding Challenges (https://codingchallenges.fyi/challenges/challenge-calculator/)
+
+I utilised the shunting yard algorithm to convert the expression from infix to postfix (reverse polish) notation to make the logic easier to handle.
+
+PLEASE note that the logic as is can only handle single digits :)
 
 ## Folder Structure
 
